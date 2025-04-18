@@ -60,7 +60,7 @@ Thumbs.db
 instance/
 *.pyc
 *.pyd
-*.pth
+
 uploads/
 diabetic_retinopathy_model.pth  # Ignore the trained model file if not needed in repo
 
