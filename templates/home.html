@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetic Retinopathy Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -13,11 +14,18 @@
             <input type="file" name="file" accept=".png,.jpg,.jpeg" required>
             <button type="submit">Upload and Predict</button>
         </form>
+
         {% if prediction is defined %}
-            <div class="result">
-                <h2>Result</h2>
-                <p>Predicted Class: {{ prediction }}</p>
-                <p>Condition: {{ condition }}</p>
+            <div class="result-container">
+                <div class="uploaded-image">
+                    <h2>Uploaded Image</h2>
+                    <img src="{{ image_url }}" alt="Uploaded Fundus Image">
+                </div>
+                <div class="result">
+                    <h2>Result</h2>
+                    <p>Predicted Class: {{ prediction }}</p>
+                    <p>Condition: {{ condition }}</p>
+                </div>
             </div>
         {% endif %}
     </div>
