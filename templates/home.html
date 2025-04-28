@@ -106,16 +106,35 @@
         {% endif %}
 
 
-        {% if prediction is defined %}
+        {# Display results if prediction data or last user prediction data is available #}
+        {# Check if prediction is defined (from a recent upload) OR if user is logged in and has a last prediction #}
+        {% if (prediction is defined and prediction is not none) or (current_user.is_authenticated and current_user.last_prediction_level is not none) %}
             <div class="result-container">
                 <div class="uploaded-image">
                     <h2>Uploaded Image</h2>
-                    <img src="{{ image_url }}" alt="Uploaded Fundus Image">
+                    {# Display the uploaded image if image_url is available (from current upload or last saved) #}
+                    {% if image_url %}
+                        <img src="{{ image_url }}" alt="Fundus Image">
+                    {% else %}
+                        <p>No image available for this result.</p> {# Fallback text #}
+                    {% endif %}
                 </div>
                 <div class="result">
                     <h2>Result</h2>
-                    <p>Predicted Class: {{ prediction }}</p>
-                    <p>Condition: {{ condition }}</p>
+                    {# Display results from recent upload if available, otherwise from last user prediction #}
+                    {% if prediction is defined and prediction is not none %}
+                        <p>Predicted Class: {{ prediction }}</p>
+                        <p>Condition: {{ condition }}</p>
+                        {% if recommended_cure %}
+                             <p><strong>Recommended Cure:</strong> {{ recommended_cure }}</p>
+                        {% endif %}
+                    {% elif current_user.is_authenticated and current_user.last_prediction_level is not none %}
+                         <p>Predicted Class: {{ current_user.last_prediction_level }}</p>
+                         <p>Condition: {{ get_condition_text(current_user.last_prediction_level) }}</p>
+                         {% if current_user.recommended_cure %}
+                             <p><strong>Recommended Cure:</strong> {{ current_user.recommended_cure }}</p>
+                         {% endif %}
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
