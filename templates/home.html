@@ -6,14 +6,105 @@
     <title>Diabetic Retinopathy Predictor</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+     <style>
+        /* Basic styling for the header/nav links */
+        .auth-links {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .auth-links a {
+            color: #00ffff; /* Match your theme link color */
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .auth-links a:hover {
+            color: #00ccff; /* Hover color */
+            text-decoration: underline;
+        }
+
+         /* Style for flash messages (copied from auth templates for consistency) */
+        .alert {
+            padding: 12px; /* Slightly more padding */
+            margin-bottom: 20px; /* More space below the alert */
+            border-radius: 8px; /* Slightly more rounded corners */
+            text-align: center;
+            font-size: 1em; /* Slightly larger font */
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for dark text */
+            color: #0f0c29; /* Dark text for readability */
+            border: 1px solid rgba(0,0,0,0.1); /* Subtle border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow */
+             opacity: 0;
+            animation: fadeInAlert 0.5s ease forwards;
+        }
+
+        .alert-success {
+            background-color: rgba(144, 238, 144, 0.9); color: #0a3622; border-color: rgba(60, 179, 113, 0.8);
+        }
+
+        .alert-danger {
+            background-color: rgba(255, 99, 71, 0.9); color: #4d0000; border-color: rgba(220, 20, 60, 0.8);
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 215, 0, 0.9); color: #5e4d00; border-color: rgba(218, 165, 32, 0.8);
+        }
+
+        .alert-info {
+            background-color: rgba(135, 206, 235, 0.9); color: #003366; border-color: rgba(30, 144, 255, 0.8);
+        }
+
+        @keyframes fadeInAlert {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+     </style>
 </head>
 <body>
+    {#
+    <div class="particle3"></div>
+    <div class="particle4"></div>
+    #}
     <div class="container">
+        {# Add Authentication Links Here #}
+        <div class="auth-links">
+            {% if current_user.is_authenticated %}
+                <span>Logged in as {{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+        </div>
+
+        {# Display Flash Messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
         <h1>Diabetic Retinopathy Prediction</h1>
-        <form method="post" action="/upload" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".png,.jpg,.jpeg" required>
-            <button type="submit">Upload and Predict</button>
-        </form>
+        {# Only show the upload form if the user is logged in #}
+        {% if current_user.is_authenticated %}
+            <form method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".png,.jpg,.jpeg" required>
+                <button type="submit">Upload and Predict</button>
+            </form>
+        {% else %}
+            <p style="color: #aeb2b2; text-shadow: 0 0 5px rgba(0, 255, 255, 0.2);">
+                Please log in to upload and predict images.
+            </p>
+        {% endif %}
+
 
         {% if prediction is defined %}
             <div class="result-container">

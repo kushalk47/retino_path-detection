@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Diabetic Retinopathy Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Styles specific to auth forms, integrated with main styles */
+        .auth-form {
+            max-width: 400px; /* Give the form a max width */
+            margin: 20px auto; /* Center the form */
+            padding: 20px;
+            /* Inherits styles from .container */
+        }
+
+        .auth-form h2 {
+            color: #00ffff; /* Match theme */
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left; /* Align labels/inputs */
+            width: 100%; /* Ensure form groups take full width */
+        }
+
+        .form-group label {
+            display: block; /* Label on its own line */
+            color: #aeb2b2; /* Match theme */
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: calc(100% - 24px); /* Full width minus padding/border */
+            padding: 10px;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Include padding/border in size */
+        }
+
+         .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus {
+            outline: none;
+            border-color: #00ccff;
+            box-shadow: 0 0 8px rgba(0, 204, 255, 0.6);
+            background: rgba(0, 255, 255, 0.2);
+        }
+
+        .auth-form button {
+             width: 100%;
+             margin-top: 15px;
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #aeb2b2;
+        }
+
+        .links a {
+            color: #00ffff; /* Match theme */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #00ccff;
+            text-decoration: underline;
+        }
+
+        /* Style for flash messages */
+        .alert {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #0f0c29;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: fadeInAlert 0.5s ease forwards;
+        }
+
+        .alert-success { background-color: rgba(144, 238, 144, 0.9); color: #0a3622; border-color: rgba(60, 179, 113, 0.8); }
+        .alert-danger { background-color: rgba(255, 99, 71, 0.9); color: #4d0000; border-color: rgba(220, 20, 60, 0.8); }
+        .alert-warning { background-color: rgba(255, 215, 0, 0.9); color: #5e4d00; border-color: rgba(218, 165, 32, 0.8); }
+        .alert-info { background-color: rgba(135, 206, 235, 0.9); color: #003366; border-color: rgba(30, 144, 255, 0.8); }
+
+        @keyframes fadeInAlert {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+    </style>
+</head>
+<body>
+    {#
+    <div class="particle3"></div>
+    <div class="particle4"></div>
+     #}
+    <div class="container auth-form">
+        <h2>Sign Up</h2>
+
+        {# Display Flash Messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required value="{{ username if username is defined }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="links">
+            Already have an account? <a href="{{ url_for('login') }}">Log In</a>
+        </div>
+         <div class="links">
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

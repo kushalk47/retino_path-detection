@@ -1,3 +1,4 @@
+/* Existing styles from your provided styles.css */
 body {
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -9,6 +10,8 @@ body {
     align-items: center;
     overflow: hidden;
     animation: pulseBackground 10s infinite alternate;
+    /* Added for flash messages */
+    position: relative;
 }
 
 @keyframes pulseBackground {
@@ -26,11 +29,14 @@ body {
     border: 1px solid rgba(0, 255, 255, 0.2);
     transform: perspective(1000px) translateZ(0);
     transition: transform 0.3s ease;
-    /* Allow container to expand for results */
-    max-height: 90vh; /* Limit height if results are very long */
-    overflow-y: auto; /* Add scroll if content exceeds height */
-    width: 90%; /* Make container responsive */
-    max-width: 800px; /* Max width */
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 90%;
+    max-width: 800px;
+    /* Added margin-top/bottom to prevent container from sticking to top/bottom on small screens */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative; /* Added for absolute positioning of alerts within container if needed */
 }
 
 .container:hover {
@@ -42,7 +48,7 @@ h1 {
     font-size: 2.5em;
     text-shadow: 0 0 10px #0e0f0f, 0 0 20px #141515, 0 0 30px #1c1d1d;
     animation: glow 2s ease-in-out infinite alternate;
-    margin-bottom: 20px; /* Added margin */
+    margin-bottom: 20px;
 }
 
 @keyframes glow {
@@ -72,12 +78,11 @@ input[type="file"] {
     color: #00ffff;
     font-size: 1em;
     transition: all 0.3s ease;
-    width: 80%; /* Make input responsive */
-    max-width: 300px; /* Max width for input */
+    width: 80%;
+    max-width: 300px;
 }
 
 input[type="file"]::file-selector-button {
-    /* Style the actual file selection button */
     background: linear-gradient(45deg, #00ffff, #00ccff);
     color: #0f0c29;
     padding: 8px 15px;
@@ -89,7 +94,7 @@ input[type="file"]::file-selector-button {
 }
 
 input[type="file"]::file-selector-button:hover {
-     background: linear-gradient(45deg, #00ccff, #00ffff);
+    background: linear-gradient(45deg, #00ccff, #00ffff);
 }
 
 
@@ -105,7 +110,7 @@ button {
     letter-spacing: 2px;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     animation: pulseButton 2s infinite;
-    transition: all 0.3s ease; /* Added transition */
+    transition: all 0.3s ease;
 }
 
 @keyframes pulseButton {
@@ -119,7 +124,6 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Container for image and results */
 .result-container {
     margin-top: 25px;
     padding: 15px;
@@ -128,13 +132,12 @@ button:hover {
     background: rgba(0, 255, 255, 0.05);
     animation: fadeIn 1.5s ease;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack image and results vertically by default */
-    align-items: center; /* Center items horizontally */
-    gap: 20px; /* Space between image and results */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-/* Style for the uploaded image section */
 .uploaded-image {
     text-align: center;
 }
@@ -146,20 +149,18 @@ button:hover {
 }
 
 .uploaded-image img {
-    max-width: 100%; /* Make image responsive */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    height: auto;
     border: 2px solid #00ffff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
-
-/* Style for the prediction result text section */
 .result {
-     text-align: left; /* Align text to the left */
-     width: 100%; /* Take full width of its container */
-     padding-top: 15px; /* Add some padding above the text results */
-     border-top: 1px solid rgba(0, 255, 255, 0.2); /* Separator line */
+    text-align: left;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
 }
 
 .result h2 {
@@ -180,49 +181,42 @@ button:hover {
     to { opacity: 1; transform: scale(1); }
 }
 
-
-/* Desktop view: Arrange image and results side-by-side */
 @media (min-width: 768px) {
     .result-container {
-        flex-direction: row; /* Arrange side-by-side on larger screens */
-        justify-content: space-around; /* Distribute space */
-        align-items: flex-start; /* Align items to the top */
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
     }
 
     .uploaded-image {
-        flex: 1; /* Allow image section to grow */
-        max-width: 50%; /* Limit image section width */
-         border-right: 1px solid rgba(0, 255, 255, 0.2); /* Add a separator */
-         padding-right: 20px; /* Space between image and text results */
-         text-align: center; /* Center image horizontally */
+        flex: 1;
+        max-width: 50%;
+        border-right: 1px solid rgba(0, 255, 255, 0.2);
+        padding-right: 20px;
+        text-align: center;
     }
-     .uploaded-image img {
-        max-width: 100%; /* Ensure image fits within its container */
-        max-height: 300px; /* Limit image height */
-        object-fit: contain; /* Ensure image is fully visible */
-     }
-
+    .uploaded-image img {
+        max-width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+    }
 
     .result {
-        flex: 1; /* Allow result section to grow */
-        max-width: 50%; /* Limit result section width */
-        padding-left: 20px; /* Space between image and text results */
-        padding-top: 0; /* Remove top padding */
-        border-top: none; /* Remove top border */
-         text-align: left; /* Ensure text is left-aligned */
+        flex: 1;
+        max-width: 50%;
+        padding-left: 20px;
+        padding-top: 0;
+        border-top: none;
+        text-align: left;
     }
 }
 
-
-/* Add futuristic particle animation */
-/* (Keep your existing particle animation styles) */
 @keyframes particleAnimation {
     0% { transform: translateY(100vh) translateX(-50vw) scale(0); opacity: 0; }
     50% { opacity: 0.5; }
     100% { transform: translateY(-100vh) translateX(50vw) scale(1); opacity: 0; }
 }
 
-/* Example of using particles (you might want to adjust these) */
 body::before, body::after {
     content: '';
     position: absolute;
@@ -230,33 +224,29 @@ body::before, body::after {
     height: 2px;
     background: rgba(0, 255, 255, 0.8);
     border-radius: 50%;
-    /* Animation properties - adjust duration, delay, etc. */
     animation: particleAnimation 10s infinite linear;
-    top: 100%; /* Start from bottom */
-    left: 50%; /* Start from center */
-    z-index: -1; /* Ensure particles are behind content */
+    top: 100%;
+    left: 50%;
+    z-index: -1;
 }
 
-/* Add more particles with different delays/durations for variation */
 body::before {
     animation-delay: 0s;
 }
 
 body::after {
-    animation-delay: 3s; /* Start later */
-    left: 30%; /* Different starting position */
-    animation-duration: 7s; /* Different speed */
+    animation-delay: 3s;
+    left: 30%;
+    animation-duration: 7s;
 }
 
-/* Add more particles if desired */
-body::before, body::after, .particle3, .particle4 {
-     /* ... common styles ... */
-      position: absolute;
+.particle3, .particle4 {
+    position: absolute;
     width: 2px;
     height: 2px;
     background: rgba(0, 255, 255, 0.8);
     border-radius: 50%;
-     z-index: -1;
+    z-index: -1;
 }
 
 .particle3 {
@@ -267,16 +257,168 @@ body::before, body::after, .particle3, .particle4 {
 }
 
 .particle4 {
-     animation: particleAnimation 6s infinite linear;
+    animation: particleAnimation 6s infinite linear;
     animation-delay: 4s;
     left: 10%;
     top: 100%;
 }
 
-/* Make sure to add .particle3 and .particle4 elements in your HTML body
-   or generate them with JavaScript for a more dynamic effect.
-   For simplicity, you can add empty divs:
-   <div class="particle3"></div>
-   <div class="particle4"></div>
-   inside the body tag.
-*/
+/* --- Styles for Authentication Forms (.auth-form) --- */
+/* These styles are used by login.html and signup.html, and also implicitly by home.html's auth links */
+
+.auth-form {
+    /* Inherits .container styles */
+    max-width: 400px; /* Limit width of the form container */
+    margin-left: auto; /* Center the form */
+    margin-right: auto;
+}
+
+.auth-form h2 {
+    color: #00ffff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #00ffff; /* Slightly less intense glow for form titles */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%; /* Ensure form elements take full width */
+}
+
+.form-group label {
+    display: block;
+    color: #aeb2b2;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] { /* Added email just in case */
+    width: calc(100% - 24px); /* Full width minus padding and border */
+    padding: 10px;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Include padding and border in the element's total size */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus {
+    outline: none;
+    border-color: #00ccff;
+    box-shadow: 0 0 8px rgba(0, 204, 255, 0.6);
+    background: rgba(0, 255, 255, 0.2);
+}
+
+/* Style for remember me checkbox in login form */
+.form-group input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+    /* You might need custom styling for the checkbox itself if default doesn't match theme */
+}
+
+.form-group label.checkbox-label {
+    display: inline-block;
+    margin-bottom: 0;
+    font-size: 1em;
+    font-weight: normal;
+    cursor: pointer;
+    color: #aeb2b2;
+}
+
+/* Button styles are inherited from the general button rule */
+.auth-form button {
+    width: 100%; /* Make buttons full width in auth forms */
+    margin-top: 15px;
+}
+
+.links {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #aeb2b2;
+}
+
+.links a {
+    color: #00ffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #00ccff;
+    text-decoration: underline;
+}
+
+/* --- Styles for Authentication Links in Home Page (.auth-links) --- */
+.auth-links {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #aeb2b2; /* Default color for surrounding text */
+}
+
+.auth-links span {
+     margin-right: 15px;
+     color: #00ffff; /* Color for the logged-in username */
+     text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.auth-links a {
+    color: #00ffff;
+    text-decoration: none;
+    margin-left: 0; /* Reset margin as span handles spacing */
+    transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #00ccff;
+    text-decoration: underline;
+}
+
+
+/* --- Styles for Flash Messages --- */
+.alert {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #0f0c29;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+    animation: fadeInAlert 0.5s ease forwards;
+    position: relative; /* Added positioning for potential absolute placement */
+    z-index: 10; /* Ensure alerts are above other content */
+}
+
+/* Define colors for different alert categories */
+.alert-success {
+    background-color: rgba(144, 238, 144, 0.9); color: #0a3622; border-color: rgba(60, 179, 113, 0.8);
+}
+
+.alert-danger {
+    background-color: rgba(255, 99, 71, 0.9); color: #4d0000; border-color: rgba(220, 20, 60, 0.8);
+}
+
+.alert-warning {
+    background-color: rgba(255, 215, 0, 0.9); color: #5e4d00; border-color: rgba(218, 165, 32, 0.8);
+}
+
+.alert-info {
+    background-color: rgba(135, 206, 235, 0.9); color: #003366; border-color: rgba(30, 144, 255, 0.8);
+}
+
+/* Animation for fading in alerts */
+@keyframes fadeInAlert {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
